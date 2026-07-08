@@ -42,15 +42,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           devLog('[AuthContext] Session token expired — refreshing silently');
           authData = refreshAuthData(authData);
           await AsyncStorage.setItem(AUTH_KEY, JSON.stringify(authData));
-          devLog('[AuthContext] Session refreshed, new expiresAt:', authData.expiresAt);
+          devLog(
+            '[AuthContext] Session refreshed, new expiresAt:',
+            authData.expiresAt,
+          );
         } else {
-          devLog('[AuthContext] Session still valid, expiresAt:', authData.expiresAt);
+          devLog(
+            '[AuthContext] Session still valid, expiresAt:',
+            authData.expiresAt,
+          );
         }
 
         setUser(authData.user);
         devLog('[AuthContext] User restored:', authData.user);
       } catch (err) {
-        devLog('[AuthContext] Failed to restore session, clearing storage:', err);
+        devLog(
+          '[AuthContext] Failed to restore session, clearing storage:',
+          err,
+        );
         await AsyncStorage.removeItem(AUTH_KEY);
       } finally {
         setLoading(false);
@@ -87,7 +96,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     devLog('[AuthContext] Login success:', loggedInUser);
   }
 
-  async function signup(name: string, email: string, password: string): Promise<void> {
+  async function signup(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<void> {
     devLog('[AuthContext] Signup attempt:', email);
     const existing = await findAccountByEmail(email);
     if (existing) {

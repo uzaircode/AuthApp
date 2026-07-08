@@ -14,7 +14,10 @@ export type LoginFormErrors = {
   form?: string;
 };
 
-export function validateLoginForm(email: string, password: string): LoginFormErrors {
+export function validateLoginForm(
+  email: string,
+  password: string,
+): LoginFormErrors {
   const errors: LoginFormErrors = {};
 
   if (!email.trim()) {
@@ -40,14 +43,14 @@ export type SignupFormErrors = {
 export function validateSignupForm(
   name: string,
   email: string,
-  password: string
+  password: string,
 ): SignupFormErrors {
   const errors: SignupFormErrors = {};
 
   if (!name.trim()) {
     errors.name = 'Name is required';
   } else if (name.trim().length < 2) {
-    errors.password = 'Name must be at least 2 characters';
+    errors.name = 'Name must be at least 2 characters';
   }
 
   if (!email.trim()) {
