@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { globalStyles } from '../styles/global-styles';
 import PrimaryButton from '../components/primary-button';
 import { useAuth } from '../context/auth-context';
@@ -10,10 +10,12 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text style={globalStyles.title}>Welcome, {user?.name}</Text>
-      <Text style={globalStyles.subtitle}>{user?.email}</Text>
+      <View style={globalStyles.card}>
+        <Text style={globalStyles.title}>Welcome, {user?.name}</Text>
+        <Text style={globalStyles.subtitle}>{user?.email}</Text>
 
-      <PrimaryButton title="Logout" variant="outline" onPress={logout} />
+        <PrimaryButton title="Logout" variant="outline" onPress={logout} />
+      </View>
     </SafeAreaView>
   );
 }

@@ -1,5 +1,10 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, GestureResponderEvent } from 'react-native';
+import {
+  Pressable,
+  Text,
+  StyleSheet,
+  GestureResponderEvent,
+} from 'react-native';
 import { colors, spacing, fontSize } from '../styles/theme';
 
 type PrimaryButtonProps = {

@@ -13,20 +13,30 @@ import { colors, spacing, fontSize } from '../styles/theme';
 type InputFieldProps = TextInputProps & {
   error?: string;
   isPassword?: boolean;
+  icon?: keyof typeof Ionicons.glyphMap;
 };
 
 export default function InputField({
   error,
   isPassword = false,
+  icon,
   ...textInputProps
 }: InputFieldProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
     <View>
-      <View style={styles.container}>
+      <View style={[styles.container, error && styles.containerError]}>
+        {icon && (
+          <Ionicons
+            name={icon}
+            size={18}
+            color={colors.textMuted}
+            style={styles.leadingIcon}
+          />
+        )}
         <TextInput
-          style={styles.input}
+          style={[styles.input, icon && styles.inputWithIcon]}
           placeholderTextColor="#9CA3AF"
           secureTextEntry={isPassword && !isVisible}
           {...textInputProps}
@@ -62,12 +72,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     marginBottom: spacing.md,
   },
+  containerError: {
+    borderColor: colors.error,
+  },
+  leadingIcon: {
+    marginLeft: spacing.md,
+  },
   input: {
     flex: 1,
     paddingHorizontal: spacing.md,
     paddingVertical: 12,
     fontSize: fontSize.md,
     color: colors.text,
+  },
+  inputWithIcon: {
+    paddingLeft: spacing.sm,
   },
   iconButton: {
     paddingHorizontal: 14,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../types/navigation';
 import { globalStyles } from '../styles/global-styles';
@@ -41,38 +41,44 @@ export default function LoginScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text style={globalStyles.title}>Welcome back</Text>
-      <Text style={globalStyles.subtitle}>Log in to your account</Text>
+      <View style={globalStyles.card}>
+        <Text style={globalStyles.title}>Welcome back</Text>
+        <Text style={globalStyles.subtitle}>Log in to your account</Text>
 
-      <InputField
-        placeholder="Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-        error={errors.email}
-      />
-      <InputField
-        placeholder="Password"
-        isPassword
-        value={password}
-        onChangeText={setPassword}
-        error={errors.password}
-      />
+        <InputField
+          icon="mail-outline"
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+          error={errors.email}
+        />
+        <InputField
+          icon="lock-closed-outline"
+          placeholder="Password"
+          isPassword
+          value={password}
+          onChangeText={setPassword}
+          error={errors.password}
+        />
 
-      {errors.form ? <Text style={globalStyles.errorText}>{errors.form}</Text> : null}
+        {errors.form ? (
+          <Text style={globalStyles.errorText}>{errors.form}</Text>
+        ) : null}
 
-      <PrimaryButton
-        title={submitting ? 'Logging in...' : 'Login'}
-        onPress={handleLogin}
-        disabled={submitting}
-      />
+        <PrimaryButton
+          title={submitting ? 'Logging in...' : 'Login'}
+          onPress={handleLogin}
+          disabled={submitting}
+        />
 
-      <PrimaryButton
-        title="Go to Signup"
-        variant="outline"
-        onPress={() => navigation.navigate('Signup')}
-      />
+        <PrimaryButton
+          title="Go to Signup"
+          variant="outline"
+          onPress={() => navigation.navigate('Signup')}
+        />
+      </View>
     </SafeAreaView>
   );
 }

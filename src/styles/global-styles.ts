@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, spacing, fontSize } from './theme';
+import { colors, spacing, fontSize, radius, shadow } from './theme';
 
 export const globalStyles = StyleSheet.create({
   container: {
@@ -7,7 +7,13 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: colors.background,
     paddingHorizontal: spacing.lg,
     justifyContent: 'flex-start',
-    top: 8,
+    paddingTop: spacing.xxl,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.xl,
+    padding: spacing.lg,
+    ...shadow.card,
   },
   title: {
     fontSize: fontSize.xl,
