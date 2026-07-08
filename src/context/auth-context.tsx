@@ -1,7 +1,9 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   ReactNode,
 } from 'react';
@@ -70,7 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     restoreSession();
   }, []);
 
-  async function persistSession(user: User): Promise<void> {
+  const persistSession = useCallback(async (user: User): Promise<void> => {
     const authData: AuthData = {
       user,
       sessionToken: generateMockToken('access'),
@@ -79,56 +81,59 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     await AsyncStorage.setItem(AUTH_KEY, JSON.stringify(authData));
     devLog('[AuthContext] Session persisted for:', user.email, authData);
-  }
+  }, []);
 
-  async function login(email: string, password: string): Promise<void> {
-    devLog('[AuthContext] Login attempt:', email);
-    const account = await findAccountByEmail(email);
+  const login = useCallback(
+    async (email: string, password: string): Promise<void> => {
+      devLog('[AuthContext] Login attempt:', email);
+      const account = await findAccountByEmail(email);
 
-    if (!account || account.password !== password) {
-      devLog('[AuthContext] Login failed for:', email);
-      throw new Error('Invalid email or password');
-    }
+      if (!account || account.password !== password) {
+        devLog('[AuthContext] Login failed for:', email);
+        throw new Error('Invalid email or password');
+      }
 
-    const loggedInUser: User = { name: account.name, email: account.email };
-    await persistSession(loggedInUser);
-    setUser(loggedInUser);
-    devLog('[AuthContext] Login success:', loggedInUser);
-  }
+      const loggedInUser: User = { name: account.name, email: account.email };
+      await persistSession(loggedInUser);
+      setUser(loggedInUser);
+      devLog('[AuthContext] Login success:', loggedInUser);
+    },
+    [persistSession],
+  );
 
-  async function signup(
-    name: string,
-    email: string,
-    password: string,
-  ): Promise<void> {
-    devLog('[AuthContext] Signup attempt:', email);
-    const existing = await findAccountByEmail(email);
-    if (existing) {
-      devLog('[AuthContext] Signup failed — email already exists:', email);
-      throw new Error('An account with this email already exists');
-    }
+  const signup = useCallback(
+    async (name: string, email: string, password: string): Promise<void> => {
+      devLog('[AuthContext] Signup attempt:', email);
+      const existing = await findAccountByEmail(email);
+      if (existing) {
+        devLog('[AuthContext] Signup failed — email already exists:', email);
+        throw new Error('An account with this email already exists');
+      }
 
-    await createAccount({ name: name.trim(), email, password });
-    devLog('[AuthContext] Account created:', email);
+      await createAccount({ name: name.trim(), email, password });
+      devLog('[AuthContext] Account created:', email);
 
-    const newUser: User = { name: name.trim(), email: email.trim() };
-    await persistSession(newUser);
-    setUser(newUser);
-    devLog('[AuthContext] Signup success:', newUser);
-  }
+      const newUser: User = { name: name.trim(), email: email.trim() };
+      await persistSession(newUser);
+      setUser(newUser);
+      devLog('[AuthContext] Signup success:', newUser);
+    },
+    [persistSession],
+  );
 
-  async function logout(): Promise<void> {
-    devLog('[AuthContext] Logging out:', user?.email);
+  const logout = useCallback(async (): Promise<void> => {
+    devLog('[AuthContext] Logging out');
     await AsyncStorage.removeItem(AUTH_KEY);
     setUser(null);
     devLog('[AuthContext] Logout complete');
-  }
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({ user, loading, login, signup, logout }),
+    [user, loading, login, signup, logout],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth(): AuthContextType {
