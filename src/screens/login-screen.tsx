@@ -65,6 +65,7 @@ export default function LoginScreen({ navigation }: Props) {
       <PrimaryButton
         title={submitting ? 'Logging in...' : 'Login'}
         onPress={handleLogin}
+        disabled={submitting}
       />
 
       <PrimaryButton

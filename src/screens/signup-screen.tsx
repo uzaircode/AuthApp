@@ -72,6 +72,7 @@ export default function SignupScreen({ navigation }: Props) {
       <PrimaryButton
         title={submitting ? 'Creating account...' : 'Signup'}
         onPress={handleSignup}
+        disabled={submitting}
       />
 
       <PrimaryButton

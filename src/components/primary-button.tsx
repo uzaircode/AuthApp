@@ -6,12 +6,14 @@ type PrimaryButtonProps = {
   title: string;
   onPress: (event: GestureResponderEvent) => void;
   variant?: 'filled' | 'outline';
+  disabled?: boolean;
 };
 
 export default function PrimaryButton({
   title,
   onPress,
   variant = 'filled',
+  disabled = false,
 }: PrimaryButtonProps) {
   const isOutline = variant === 'outline';
 
@@ -21,8 +23,10 @@ export default function PrimaryButton({
         styles.button,
         isOutline ? styles.outlineButton : styles.filledButton,
         pressed && styles.pressed,
+        disabled && styles.disabled,
       ]}
       onPress={onPress}
+      disabled={disabled}
     >
       <Text style={isOutline ? styles.outlineText : styles.filledText}>
         {title}
@@ -49,6 +53,9 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.8,
+  },
+  disabled: {
+    opacity: 0.5,
   },
   filledText: {
     color: colors.white,
