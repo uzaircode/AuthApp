@@ -19,6 +19,31 @@ For this assignment, I built AuthApp around:
 
 ---
 
+## Table of Contents
+
+- [Screenshots / Demo Video](#screenshots--demo-video)
+- [Setup Instructions](#setup-instructions)
+- [Features Implementation](#features-implementation)
+- [Architecture & Key Decisions](#architecture--key-decisions)
+- [Naming Convention](#naming-convention)
+- [Developer Workflow](#developer-workflow)
+- [Assumptions](#assumptions)
+- [Out of Scope](#out-of-scope)
+- [Testing](#testing)
+- [Trade-offs](#trade-offs)
+
+---
+
+## Screenshots / Demo Video
+
+| Login                               | Signup                                | Home                              |
+| ------------------------------------ | -------------------------------------- | ---------------------------------- |
+| ![Login](docs/screenshot-login.png) | ![Signup](docs/screenshot-signup.png) | ![Home](docs/screenshot-home.png) |
+
+[Demo video](docs/auth-app-video-demo.mp4)
+
+---
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -47,7 +72,7 @@ npm run android
 ## Features Implementation
 
 | Requirement                                                      | Where                                                                  |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------ |
 | `AuthContext` (`user`, `login`, `signup`, `logout`)              | [`src/context/auth-context.tsx`](src/context/auth-context.tsx)         |
 | Login screen (email/password, validation, error states)          | [`src/screens/login-screen.tsx`](src/screens/login-screen.tsx)         |
 | Signup screen (name/email/password, validation, error states)    | [`src/screens/signup-screen.tsx`](src/screens/signup-screen.tsx)       |
@@ -169,19 +194,11 @@ Run with:
 npm test
 ```
 
+![All tests passing](docs/test-cases-passes.png)
+
 I didn't write UI/component or end-to-end tests — out of scope for this
 assignment's time budget; `@testing-library/react-native` is already installed
 if I add that coverage later.
-
----
-
-## Screenshots / Demo Video
-
-| Login                               | Signup                                | Home                              |
-| ----------------------------------- | ------------------------------------- | --------------------------------- |
-| ![Login](docs/screenshot-login.png) | ![Signup](docs/screenshot-signup.png) | ![Home](docs/screenshot-home.png) |
-
-[Demo video](docs/auth-app-video-demo.mp4)
 
 ---
 
